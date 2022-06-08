@@ -1,11 +1,11 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN \
     # 替换apt源
-    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic main restricted universe multiverse" > /etc/apt/sources.list && \
-    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list && \
+#    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic main restricted universe multiverse" > /etc/apt/sources.list && \
+#    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+#    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
+#    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     # 安装必要的软件
     apt update && \
     apt install tinyproxy ppp net-tools iputils-ping vim psmisc -y && \
@@ -17,7 +17,7 @@ RUN \
     echo "echo 'nameserver 223.5.5.5' >> /etc/resolv.conf" >> /etc/ppp/ip-up && \
     echo "echo 'nameserver 223.6.6.6' >> /etc/resolv.conf" >> /etc/ppp/ip-up && \
     # 安装被控端依赖包
-    apt install python3 python3-pip -y && \
+    apt install python3-pip -y && \
     # 安装被控端依赖包
     pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple flask redis requests && \
     # 清除apt缓存
