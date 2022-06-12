@@ -8,10 +8,8 @@ RUN \
 #    echo "deb http://mirrors.ustc.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     # 安装必要的软件
     apt update && \
-    apt install tinyproxy ppp net-tools iputils-ping vim psmisc -y && \
+    apt install tinyproxy ppp libqmi-utils net-tools iputils-ping vim psmisc -y && \
     # 将设定路由和DNS的脚本写入/etc/ppp/ip-up脚本中 这个脚本会在每次拨号时自动运行
-    echo "route del -net 0.0.0.0 eth0" >> /etc/ppp/ip-up && \
-    echo "route add -net 0.0.0.0 ppp0" >> /etc/ppp/ip-up && \
     echo "echo 'nameserver 127.0.0.11' > /etc/resolv.conf" >> /etc/ppp/ip-up && \
     echo "echo 'options ndots:0' >> /etc/resolv.conf" >> /etc/ppp/ip-up && \
     echo "echo 'nameserver 223.5.5.5' >> /etc/resolv.conf" >> /etc/ppp/ip-up && \
