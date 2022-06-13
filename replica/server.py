@@ -24,7 +24,7 @@ def is_run():
 
 
 @app.route("/connect")
-def connect(isFirstRun=False):
+def connect():
     while 1:
         if is_run() is False:
             subprocess.run("sh /home/quectel-pppd.sh", shell=True)
@@ -32,10 +32,9 @@ def connect(isFirstRun=False):
             break
         time.sleep(3)
     subprocess.run("tinyproxy", shell=True)
-    if isFirstRun == False:
-        current_app.redis_conn.set(ENV["REPLICA_NAME"], 1)
+    current_app.redis_conn.set(ENV["REPLICA_NAME"], 1)
     requests.get("http://master:5000/refresh_squid")
-    return "done."
+    return "connect done."
 
 
 @app.route("/disconnect")
@@ -49,7 +48,7 @@ def disconnect():
         time.sleep(0.5)
         subprocess.run(f'echo -e -n "AT+CFUN=1\x0D\x0A" > {ENV["AT_DEV"]}', shell=True)
         time.sleep(3)
-    return "done."
+    return "disconnect done."
 
 
 @app.route("/reconnect")
@@ -60,7 +59,7 @@ def reconnect():
         connect()
     else:
         connect()
-    return "done."
+    return "reconnect done."
 
 
 @app.route("/status")
@@ -70,5 +69,4 @@ def get_status():
 
 if __name__ == '__main__':
     app.redis_conn.hset("replicas", ENV["REPLICA_NAME"], 1)
-    connect(isFirstRun=True)
     app.run(host="0.0.0.0")

@@ -3,9 +3,11 @@ services:
     {% for nic in nics %}
     replica_{{ nic.num }}:
         build: ./replica
+        image: replica_{{ nic.num }}
+        container_name: replica_{{ nic.num }}
         expose:
-            - "5000"
             - "3128"
+            - "5000"
         networks:
             - mobile_network_proxy
         environment:
@@ -17,6 +19,8 @@ services:
 
     master:
         build: ./master
+        image: master
+        container_name: master
         ports:
             - "3128:3128"
             - "5000:5000"

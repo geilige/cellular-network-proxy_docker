@@ -13,7 +13,7 @@ RUN \
     python3 -m pip install pip -U && \
     python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
     # 安装主控端依赖包
-    python3 -m pip install aredis aiohttp quart && \
+    python3 -m pip install redis aiohttp quart && \
     # 清除apt缓存
     apt autoclean && \
     rm -rf /var/lib/apt/lists/*
